@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "air-capture--simple-instagram-capture.fullname" . }}
+  labels:
+{{ include "air-capture--simple-instagram-capture.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "air-capture--simple-instagram-capture.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
